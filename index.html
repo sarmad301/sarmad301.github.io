@@ -1,0 +1,75 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="dark">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>sarmad301 · pages</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Barlow+Condensed:wght@600;700&family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --bg:#0a0e16; --panel:#121a28; --line:#21304a;
+    --tx:#e7edf6; --mut:#8694ad; --faint:#5b6985;
+    --grn:#19c37d; --gold:#e8b341;
+    --shadow:0 1px 0 rgba(255,255,255,.03), 0 10px 30px rgba(0,0,0,.4);
+  }
+  *{box-sizing:border-box;margin:0;padding:0}
+  body{
+    background:
+      radial-gradient(1100px 520px at 50% -10%, rgba(25,195,125,.10), transparent 60%),
+      var(--bg);
+    color:var(--tx);
+    font-family:Inter,system-ui,-apple-system,Segoe UI,Roboto,sans-serif;
+    min-height:100vh; line-height:1.55;
+  }
+  .wrap{max-width:680px;margin:0 auto;padding:64px 20px 48px}
+  .eyebrow{font-family:"Barlow Condensed",sans-serif;font-weight:600;letter-spacing:.18em;
+    text-transform:uppercase;font-size:13px;color:var(--grn)}
+  h1{font-family:"Barlow Condensed",sans-serif;font-weight:700;font-size:clamp(34px,8vw,52px);
+    line-height:1;letter-spacing:.01em;margin:8px 0 10px;text-transform:uppercase}
+  .lede{color:var(--mut);font-size:15.5px;max-width:46ch}
+  .rule{height:1px;background:linear-gradient(90deg,var(--line),transparent);margin:30px 0 22px}
+  .label{font-family:"Barlow Condensed",sans-serif;font-weight:600;letter-spacing:.12em;
+    text-transform:uppercase;font-size:12.5px;color:var(--faint);margin-bottom:14px}
+  .grid{display:flex;flex-direction:column;gap:12px}
+  a.card{display:flex;align-items:center;gap:16px;text-decoration:none;color:inherit;
+    background:var(--panel);border:1px solid var(--line);border-radius:15px;
+    padding:18px 18px;box-shadow:var(--shadow);transition:.16s;border-left:3px solid var(--grn)}
+  a.card:hover{transform:translateY(-2px);border-color:#2c4063;border-left-color:var(--grn)}
+  .ico{flex:none;width:46px;height:46px;border-radius:12px;display:grid;place-items:center;
+    font-size:24px;background:#0f1622;border:1px solid var(--line)}
+  .ct{min-width:0;flex:1}
+  .ct h2{font-size:17px;font-weight:600;margin-bottom:3px}
+  .ct p{color:var(--mut);font-size:13.5px}
+  .arrow{flex:none;color:var(--faint);font-size:20px;transition:.16s}
+  a.card:hover .arrow{color:var(--grn);transform:translateX(3px)}
+  footer{margin-top:40px;color:var(--faint);font-size:12px;display:flex;align-items:center;gap:8px}
+  footer .ghdot{width:6px;height:6px;border-radius:50%;background:var(--grn)}
+  footer a{color:var(--mut);text-decoration:none;border-bottom:1px dotted var(--faint)}
+</style>
+</head>
+<body>
+  <div class="wrap">
+    <div class="eyebrow">sarmad301.github.io</div>
+    <h1>Pages</h1>
+    <p class="lede">A home for live web pages — tools, references, and experiments. New pages get added here as they go up.</p>
+
+    <div class="rule"></div>
+
+    <div class="label">Published</div>
+    <div class="grid">
+      <a class="card" href="./world-cup-2026-baghdad.html">
+        <div class="ico">⚽</div>
+        <div class="ct">
+          <h2>World Cup 2026 — Baghdad Time</h2>
+          <p>All 104 matches converted to GMT+3, filterable by stage, group, and team.</p>
+        </div>
+        <div class="arrow">→</div>
+      </a>
+    </div>
+
+    <footer><span class="ghdot"></span> Hosted on GitHub Pages · built with <a href="https://claude.ai">Claude</a></footer>
+  </div>
+</body>
+</html>

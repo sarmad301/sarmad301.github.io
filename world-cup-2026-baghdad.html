@@ -1,0 +1,344 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="dark">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>World Cup 2026 — Baghdad Time (GMT+3)</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Barlow+Condensed:wght@500;600;700&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --bg:#0a0e16; --panel:#121a28; --panel2:#0f1622; --line:#21304a;
+    --tx:#e7edf6; --mut:#8694ad; --faint:#5b6985;
+    --grn:#19c37d; --gold:#e8b341; --iraq-g:#3aa564; --iraq-r:#d61f3a;
+    --chip:#16203200; --chipbg:#16223a; --live:#ff4d5e;
+    --shadow:0 1px 0 rgba(255,255,255,.03), 0 8px 24px rgba(0,0,0,.35);
+  }
+  [data-theme="light"]{
+    --bg:#eef1f6; --panel:#ffffff; --panel2:#f5f7fb; --line:#d9e0ec;
+    --tx:#16202f; --mut:#5a677d; --faint:#8b97ab;
+    --grn:#0e9e63; --gold:#b9831f; --iraq-g:#2c8b52; --iraq-r:#c8102e;
+    --chipbg:#e7edf7; --live:#e0394a;
+    --shadow:0 1px 2px rgba(20,30,50,.06), 0 6px 18px rgba(20,30,50,.08);
+  }
+  *{box-sizing:border-box;margin:0;padding:0}
+  html{-webkit-text-size-adjust:100%}
+  body{
+    background:var(--bg); color:var(--tx);
+    font-family:Inter,system-ui,-apple-system,Segoe UI,Roboto,sans-serif;
+    line-height:1.5; padding-bottom:48px;
+    transition:background .25s,color .25s;
+  }
+  .wrap{max-width:760px;margin:0 auto;padding:0 14px}
+
+  /* ---- header ---- */
+  header{padding:22px 0 10px}
+  .kick{font-family:"Barlow Condensed",sans-serif;font-weight:700;letter-spacing:.02em;
+    font-size:30px;line-height:1.02;text-transform:uppercase}
+  .kick .yr{color:var(--grn)}
+  .sub{color:var(--mut);font-size:13.5px;margin-top:4px}
+  .nowline{display:flex;align-items:center;gap:8px;flex-wrap:wrap;margin-top:12px;
+    font-size:12.5px;color:var(--mut)}
+  .nowpill{background:var(--panel);border:1px solid var(--line);border-radius:999px;
+    padding:5px 11px;display:inline-flex;align-items:center;gap:7px;box-shadow:var(--shadow)}
+  .nowpill b{color:var(--tx);font-weight:600;font-variant-numeric:tabular-nums}
+  .dot{width:7px;height:7px;border-radius:50%;background:var(--grn);box-shadow:0 0 0 0 var(--grn);
+    animation:pp 2s infinite}
+  @keyframes pp{0%{box-shadow:0 0 0 0 rgba(25,195,125,.5)}70%{box-shadow:0 0 0 6px rgba(25,195,125,0)}100%{box-shadow:0 0 0 0 rgba(25,195,125,0)}}
+
+  /* ---- controls ---- */
+  .controls{position:sticky;top:0;z-index:20;background:var(--bg);
+    padding:10px 0 8px;margin-top:6px;
+    border-bottom:1px solid var(--line)}
+  .searchrow{display:flex;gap:8px;margin-bottom:9px}
+  .search{flex:1;display:flex;align-items:center;gap:8px;background:var(--panel);
+    border:1px solid var(--line);border-radius:11px;padding:9px 12px;box-shadow:var(--shadow)}
+  .search input{flex:1;background:none;border:none;outline:none;color:var(--tx);
+    font-size:15px;font-family:inherit}
+  .search input::placeholder{color:var(--faint)}
+  .search svg{flex:none;opacity:.7}
+  .iconbtn{background:var(--panel);border:1px solid var(--line);border-radius:11px;
+    width:42px;flex:none;color:var(--tx);font-size:17px;cursor:pointer;box-shadow:var(--shadow)}
+  .iconbtn:active{transform:scale(.95)}
+
+  .chips{display:flex;gap:7px;overflow-x:auto;padding-bottom:3px;-webkit-overflow-scrolling:touch;
+    scrollbar-width:none}
+  .chips::-webkit-scrollbar{display:none}
+  .chip{flex:none;background:var(--chipbg);border:1px solid transparent;color:var(--mut);
+    font-family:inherit;font-size:13px;font-weight:600;padding:7px 13px;border-radius:999px;
+    cursor:pointer;white-space:nowrap;transition:.15s}
+  .chip:active{transform:scale(.96)}
+  .chip.on{background:var(--grn);color:#06140d;border-color:var(--grn)}
+  .chip.iq.on{background:var(--iraq-g);color:#06140d;border-color:var(--iraq-g)}
+  .chip.tg{border-color:var(--line)}
+  .chip.tg.on{background:var(--gold);color:#1c1505;border-color:var(--gold)}
+  .grouprow{margin-top:7px}
+  .grouprow .chip{font-family:"Barlow Condensed",sans-serif;font-size:14px;
+    padding:6px 12px;letter-spacing:.03em}
+
+  /* ---- day section ---- */
+  .day{margin-top:22px}
+  .dayhd{display:flex;align-items:baseline;gap:10px;padding:0 2px 9px}
+  .dayhd .d{font-family:"Barlow Condensed",sans-serif;font-weight:600;font-size:20px;
+    letter-spacing:.03em;text-transform:uppercase}
+  .dayhd .n{color:var(--faint);font-size:12px;margin-left:auto}
+  .dayhd .bar{height:1px;background:linear-gradient(90deg,var(--line),transparent);flex:1}
+
+  /* ---- match card ---- */
+  .m{display:grid;grid-template-columns:64px 1fr auto;gap:12px;align-items:center;
+    background:var(--panel);border:1px solid var(--line);border-radius:13px;
+    padding:12px 13px;margin-bottom:9px;box-shadow:var(--shadow);
+    border-left:3px solid var(--line);transition:.15s}
+  .m.iq{border-left-color:var(--iraq-r)}
+  .m.live{border-left-color:var(--live)}
+  .m.done{opacity:.55}
+  .time{font-family:"Barlow Condensed",sans-serif;font-weight:700;font-size:26px;
+    line-height:1;font-variant-numeric:tabular-nums;text-align:center}
+  .time .mn{display:flex;align-items:center;justify-content:center;gap:4px;
+    font-size:10px;font-weight:600;color:var(--gold);margin-top:3px;letter-spacing:.04em}
+  .teams{min-width:0}
+  .tm{display:flex;align-items:center;gap:7px;font-size:15.5px;font-weight:600;
+    white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+  .tm+.tm{margin-top:3px}
+  .vs{color:var(--faint);font-size:11px;font-weight:600;margin:1px 0 1px 1px;
+    letter-spacing:.08em}
+  .flag{flex:none}
+  .meta{display:flex;flex-direction:column;align-items:flex-end;gap:5px}
+  .gtag{font-family:"Barlow Condensed",sans-serif;font-weight:600;font-size:12px;
+    color:var(--mut);background:var(--panel2);border:1px solid var(--line);
+    border-radius:7px;padding:3px 8px;letter-spacing:.03em;white-space:nowrap}
+  .status{font-size:10.5px;font-weight:700;letter-spacing:.06em;text-transform:uppercase}
+  .status.up{color:var(--faint)}
+  .status.lv{color:var(--live);display:flex;align-items:center;gap:5px}
+  .status.lv .dot{background:var(--live);animation:pp 1.3s infinite}
+  .status.dn{color:var(--faint)}
+
+  .empty{text-align:center;color:var(--mut);padding:48px 16px;font-size:14.5px}
+  .empty b{color:var(--tx)}
+  footer{color:var(--faint);font-size:11.5px;line-height:1.6;margin-top:26px;
+    padding-top:16px;border-top:1px solid var(--line)}
+  footer code{color:var(--mut);background:var(--panel);padding:1px 5px;border-radius:5px;
+    font-size:11px}
+  @media(max-width:430px){
+    .kick{font-size:25px}
+    .m{grid-template-columns:56px 1fr auto;gap:10px;padding:11px 11px}
+    .time{font-size:23px}
+    .tm{font-size:14.5px}
+    .gtag{font-size:11px;padding:2px 7px}
+  }
+</style>
+</head>
+<body>
+<div class="wrap">
+  <header>
+    <div class="kick">FIFA World Cup <span class="yr">2026</span></div>
+    <div class="sub">All 104 matches in your time — Baghdad <b style="color:var(--tx);font-weight:600">GMT+3</b> · USA · Canada · Mexico</div>
+    <div class="nowline">
+      <span class="nowpill"><span class="dot"></span> Now in Baghdad: <b id="clock">—</b></span>
+      <span id="counter"></span>
+    </div>
+  </header>
+
+  <div class="controls">
+    <div class="searchrow">
+      <label class="search">
+        <svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2"><circle cx="11" cy="11" r="7"/><path d="m21 21-4.3-4.3"/></svg>
+        <input id="q" type="text" placeholder="Search a team… (e.g. Iraq, Brazil)" autocomplete="off">
+      </label>
+      <button class="iconbtn" id="theme" title="Toggle light / dark">◑</button>
+    </div>
+    <div class="chips" id="stageChips">
+      <button class="chip on" data-stage="all">All stages</button>
+      <button class="chip" data-stage="group">Group stage</button>
+      <button class="chip" data-stage="R32">Round of 32</button>
+      <button class="chip" data-stage="R16">Round of 16</button>
+      <button class="chip" data-stage="QF">Quarterfinals</button>
+      <button class="chip" data-stage="SF">Semifinals</button>
+      <button class="chip" data-stage="FINAL">Final</button>
+    </div>
+    <div class="chips grouprow" id="extraChips">
+      <button class="chip iq" id="iqBtn" data-toggle="iraq">🇮🇶 Iraq</button>
+      <button class="chip tg" id="upBtn" data-toggle="up">Upcoming only</button>
+      <span style="width:1px;background:var(--line);margin:2px 2px"></span>
+      <button class="chip" data-grp="A">A</button>
+      <button class="chip" data-grp="B">B</button>
+      <button class="chip" data-grp="C">C</button>
+      <button class="chip" data-grp="D">D</button>
+      <button class="chip" data-grp="E">E</button>
+      <button class="chip" data-grp="F">F</button>
+      <button class="chip" data-grp="G">G</button>
+      <button class="chip" data-grp="H">H</button>
+      <button class="chip" data-grp="I">I</button>
+      <button class="chip" data-grp="J">J</button>
+      <button class="chip" data-grp="K">K</button>
+      <button class="chip" data-grp="L">L</button>
+    </div>
+  </div>
+
+  <div id="list"></div>
+
+  <footer>
+    Kickoffs converted from the published Eastern Time (EDT, UTC−4) schedule to Baghdad time
+    (Arabia Standard Time, UTC+3) by adding 7 hours. A <span style="color:var(--gold)">🌙</span> marks
+    matches that start between midnight and 6 AM your time. Round of 32 onward shows seeding
+    placeholders (e.g. <code>Winners C</code>) until groups finalize on 27 Jun; knockout brackets
+    fill in after that. Live / ended status is based on the schedule, not live scores.
+  </footer>
+</div>
+
+<script>
+const DATA = [{"g":"A","h":"Mexico","a":"South Africa","etDate":"2026-06-11 15:00","bgISO":"2026-06-11T22:00:00+03:00","bgDateKey":"2026-06-11","bgDayLabel":"Thu 11 Jun","bgTime":"22:00"},{"g":"A","h":"South Korea","a":"Czechia","etDate":"2026-06-11 22:00","bgISO":"2026-06-12T05:00:00+03:00","bgDateKey":"2026-06-12","bgDayLabel":"Fri 12 Jun","bgTime":"05:00"},{"g":"B","h":"Canada","a":"Bosnia and Herzegovina","etDate":"2026-06-12 15:00","bgISO":"2026-06-12T22:00:00+03:00","bgDateKey":"2026-06-12","bgDayLabel":"Fri 12 Jun","bgTime":"22:00"},{"g":"D","h":"USA","a":"Paraguay","etDate":"2026-06-12 21:00","bgISO":"2026-06-13T04:00:00+03:00","bgDateKey":"2026-06-13","bgDayLabel":"Sat 13 Jun","bgTime":"04:00"},{"g":"B","h":"Qatar","a":"Switzerland","etDate":"2026-06-13 15:00","bgISO":"2026-06-13T22:00:00+03:00","bgDateKey":"2026-06-13","bgDayLabel":"Sat 13 Jun","bgTime":"22:00"},{"g":"C","h":"Brazil","a":"Morocco","etDate":"2026-06-13 18:00","bgISO":"2026-06-14T01:00:00+03:00","bgDateKey":"2026-06-14","bgDayLabel":"Sun 14 Jun","bgTime":"01:00"},{"g":"C","h":"Haiti","a":"Scotland","etDate":"2026-06-13 21:00","bgISO":"2026-06-14T04:00:00+03:00","bgDateKey":"2026-06-14","bgDayLabel":"Sun 14 Jun","bgTime":"04:00"},{"g":"D","h":"Australia","a":"Turkiye","etDate":"2026-06-14 00:00","bgISO":"2026-06-14T07:00:00+03:00","bgDateKey":"2026-06-14","bgDayLabel":"Sun 14 Jun","bgTime":"07:00"},{"g":"E","h":"Germany","a":"Curacao","etDate":"2026-06-14 13:00","bgISO":"2026-06-14T20:00:00+03:00","bgDateKey":"2026-06-14","bgDayLabel":"Sun 14 Jun","bgTime":"20:00"},{"g":"F","h":"Netherlands","a":"Japan","etDate":"2026-06-14 16:00","bgISO":"2026-06-14T23:00:00+03:00","bgDateKey":"2026-06-14","bgDayLabel":"Sun 14 Jun","bgTime":"23:00"},{"g":"E","h":"Ivory Coast","a":"Ecuador","etDate":"2026-06-14 19:00","bgISO":"2026-06-15T02:00:00+03:00","bgDateKey":"2026-06-15","bgDayLabel":"Mon 15 Jun","bgTime":"02:00"},{"g":"F","h":"Sweden","a":"Tunisia","etDate":"2026-06-14 22:00","bgISO":"2026-06-15T05:00:00+03:00","bgDateKey":"2026-06-15","bgDayLabel":"Mon 15 Jun","bgTime":"05:00"},{"g":"H","h":"Spain","a":"Cape Verde","etDate":"2026-06-15 12:00","bgISO":"2026-06-15T19:00:00+03:00","bgDateKey":"2026-06-15","bgDayLabel":"Mon 15 Jun","bgTime":"19:00"},{"g":"G","h":"Belgium","a":"Egypt","etDate":"2026-06-15 15:00","bgISO":"2026-06-15T22:00:00+03:00","bgDateKey":"2026-06-15","bgDayLabel":"Mon 15 Jun","bgTime":"22:00"},{"g":"H","h":"Saudi Arabia","a":"Uruguay","etDate":"2026-06-15 18:00","bgISO":"2026-06-16T01:00:00+03:00","bgDateKey":"2026-06-16","bgDayLabel":"Tue 16 Jun","bgTime":"01:00"},{"g":"G","h":"Iran","a":"New Zealand","etDate":"2026-06-15 21:00","bgISO":"2026-06-16T04:00:00+03:00","bgDateKey":"2026-06-16","bgDayLabel":"Tue 16 Jun","bgTime":"04:00"},{"g":"I","h":"France","a":"Senegal","etDate":"2026-06-16 15:00","bgISO":"2026-06-16T22:00:00+03:00","bgDateKey":"2026-06-16","bgDayLabel":"Tue 16 Jun","bgTime":"22:00"},{"g":"I","h":"Iraq","a":"Norway","etDate":"2026-06-16 18:00","bgISO":"2026-06-17T01:00:00+03:00","bgDateKey":"2026-06-17","bgDayLabel":"Wed 17 Jun","bgTime":"01:00"},{"g":"J","h":"Argentina","a":"Algeria","etDate":"2026-06-16 21:00","bgISO":"2026-06-17T04:00:00+03:00","bgDateKey":"2026-06-17","bgDayLabel":"Wed 17 Jun","bgTime":"04:00"},{"g":"J","h":"Austria","a":"Jordan","etDate":"2026-06-17 00:00","bgISO":"2026-06-17T07:00:00+03:00","bgDateKey":"2026-06-17","bgDayLabel":"Wed 17 Jun","bgTime":"07:00"},{"g":"K","h":"Portugal","a":"DR Congo","etDate":"2026-06-17 13:00","bgISO":"2026-06-17T20:00:00+03:00","bgDateKey":"2026-06-17","bgDayLabel":"Wed 17 Jun","bgTime":"20:00"},{"g":"L","h":"England","a":"Croatia","etDate":"2026-06-17 16:00","bgISO":"2026-06-17T23:00:00+03:00","bgDateKey":"2026-06-17","bgDayLabel":"Wed 17 Jun","bgTime":"23:00"},{"g":"L","h":"Ghana","a":"Panama","etDate":"2026-06-17 19:00","bgISO":"2026-06-18T02:00:00+03:00","bgDateKey":"2026-06-18","bgDayLabel":"Thu 18 Jun","bgTime":"02:00"},{"g":"K","h":"Uzbekistan","a":"Colombia","etDate":"2026-06-17 22:00","bgISO":"2026-06-18T05:00:00+03:00","bgDateKey":"2026-06-18","bgDayLabel":"Thu 18 Jun","bgTime":"05:00"},{"g":"A","h":"Czechia","a":"South Africa","etDate":"2026-06-18 12:00","bgISO":"2026-06-18T19:00:00+03:00","bgDateKey":"2026-06-18","bgDayLabel":"Thu 18 Jun","bgTime":"19:00"},{"g":"B","h":"Switzerland","a":"Bosnia and Herzegovina","etDate":"2026-06-18 15:00","bgISO":"2026-06-18T22:00:00+03:00","bgDateKey":"2026-06-18","bgDayLabel":"Thu 18 Jun","bgTime":"22:00"},{"g":"B","h":"Canada","a":"Qatar","etDate":"2026-06-18 18:00","bgISO":"2026-06-19T01:00:00+03:00","bgDateKey":"2026-06-19","bgDayLabel":"Fri 19 Jun","bgTime":"01:00"},{"g":"A","h":"Mexico","a":"South Korea","etDate":"2026-06-18 21:00","bgISO":"2026-06-19T04:00:00+03:00","bgDateKey":"2026-06-19","bgDayLabel":"Fri 19 Jun","bgTime":"04:00"},{"g":"D","h":"USA","a":"Australia","etDate":"2026-06-19 15:00","bgISO":"2026-06-19T22:00:00+03:00","bgDateKey":"2026-06-19","bgDayLabel":"Fri 19 Jun","bgTime":"22:00"},{"g":"C","h":"Scotland","a":"Morocco","etDate":"2026-06-19 18:00","bgISO":"2026-06-20T01:00:00+03:00","bgDateKey":"2026-06-20","bgDayLabel":"Sat 20 Jun","bgTime":"01:00"},{"g":"C","h":"Brazil","a":"Haiti","etDate":"2026-06-19 21:00","bgISO":"2026-06-20T04:00:00+03:00","bgDateKey":"2026-06-20","bgDayLabel":"Sat 20 Jun","bgTime":"04:00"},{"g":"D","h":"Turkiye","a":"Paraguay","etDate":"2026-06-20 00:00","bgISO":"2026-06-20T07:00:00+03:00","bgDateKey":"2026-06-20","bgDayLabel":"Sat 20 Jun","bgTime":"07:00"},{"g":"F","h":"Netherlands","a":"Sweden","etDate":"2026-06-20 13:00","bgISO":"2026-06-20T20:00:00+03:00","bgDateKey":"2026-06-20","bgDayLabel":"Sat 20 Jun","bgTime":"20:00"},{"g":"E","h":"Germany","a":"Ivory Coast","etDate":"2026-06-20 16:00","bgISO":"2026-06-20T23:00:00+03:00","bgDateKey":"2026-06-20","bgDayLabel":"Sat 20 Jun","bgTime":"23:00"},{"g":"E","h":"Ecuador","a":"Curacao","etDate":"2026-06-20 20:00","bgISO":"2026-06-21T03:00:00+03:00","bgDateKey":"2026-06-21","bgDayLabel":"Sun 21 Jun","bgTime":"03:00"},{"g":"F","h":"Tunisia","a":"Japan","etDate":"2026-06-21 00:00","bgISO":"2026-06-21T07:00:00+03:00","bgDateKey":"2026-06-21","bgDayLabel":"Sun 21 Jun","bgTime":"07:00"},{"g":"H","h":"Spain","a":"Saudi Arabia","etDate":"2026-06-21 12:00","bgISO":"2026-06-21T19:00:00+03:00","bgDateKey":"2026-06-21","bgDayLabel":"Sun 21 Jun","bgTime":"19:00"},{"g":"G","h":"Belgium","a":"Iran","etDate":"2026-06-21 15:00","bgISO":"2026-06-21T22:00:00+03:00","bgDateKey":"2026-06-21","bgDayLabel":"Sun 21 Jun","bgTime":"22:00"},{"g":"H","h":"Uruguay","a":"Cape Verde","etDate":"2026-06-21 18:00","bgISO":"2026-06-22T01:00:00+03:00","bgDateKey":"2026-06-22","bgDayLabel":"Mon 22 Jun","bgTime":"01:00"},{"g":"G","h":"New Zealand","a":"Egypt","etDate":"2026-06-21 21:00","bgISO":"2026-06-22T04:00:00+03:00","bgDateKey":"2026-06-22","bgDayLabel":"Mon 22 Jun","bgTime":"04:00"},{"g":"J","h":"Argentina","a":"Austria","etDate":"2026-06-22 13:00","bgISO":"2026-06-22T20:00:00+03:00","bgDateKey":"2026-06-22","bgDayLabel":"Mon 22 Jun","bgTime":"20:00"},{"g":"I","h":"France","a":"Iraq","etDate":"2026-06-22 17:00","bgISO":"2026-06-23T00:00:00+03:00","bgDateKey":"2026-06-23","bgDayLabel":"Tue 23 Jun","bgTime":"00:00"},{"g":"I","h":"Norway","a":"Senegal","etDate":"2026-06-22 20:00","bgISO":"2026-06-23T03:00:00+03:00","bgDateKey":"2026-06-23","bgDayLabel":"Tue 23 Jun","bgTime":"03:00"},{"g":"J","h":"Jordan","a":"Algeria","etDate":"2026-06-22 23:00","bgISO":"2026-06-23T06:00:00+03:00","bgDateKey":"2026-06-23","bgDayLabel":"Tue 23 Jun","bgTime":"06:00"},{"g":"K","h":"Portugal","a":"Uzbekistan","etDate":"2026-06-23 13:00","bgISO":"2026-06-23T20:00:00+03:00","bgDateKey":"2026-06-23","bgDayLabel":"Tue 23 Jun","bgTime":"20:00"},{"g":"L","h":"England","a":"Ghana","etDate":"2026-06-23 16:00","bgISO":"2026-06-23T23:00:00+03:00","bgDateKey":"2026-06-23","bgDayLabel":"Tue 23 Jun","bgTime":"23:00"},{"g":"L","h":"Panama","a":"Croatia","etDate":"2026-06-23 19:00","bgISO":"2026-06-24T02:00:00+03:00","bgDateKey":"2026-06-24","bgDayLabel":"Wed 24 Jun","bgTime":"02:00"},{"g":"K","h":"Colombia","a":"DR Congo","etDate":"2026-06-23 22:00","bgISO":"2026-06-24T05:00:00+03:00","bgDateKey":"2026-06-24","bgDayLabel":"Wed 24 Jun","bgTime":"05:00"},{"g":"B","h":"Switzerland","a":"Canada","etDate":"2026-06-24 15:00","bgISO":"2026-06-24T22:00:00+03:00","bgDateKey":"2026-06-24","bgDayLabel":"Wed 24 Jun","bgTime":"22:00"},{"g":"B","h":"Bosnia and Herzegovina","a":"Qatar","etDate":"2026-06-24 15:00","bgISO":"2026-06-24T22:00:00+03:00","bgDateKey":"2026-06-24","bgDayLabel":"Wed 24 Jun","bgTime":"22:00"},{"g":"C","h":"Scotland","a":"Brazil","etDate":"2026-06-24 18:00","bgISO":"2026-06-25T01:00:00+03:00","bgDateKey":"2026-06-25","bgDayLabel":"Thu 25 Jun","bgTime":"01:00"},{"g":"C","h":"Morocco","a":"Haiti","etDate":"2026-06-24 18:00","bgISO":"2026-06-25T01:00:00+03:00","bgDateKey":"2026-06-25","bgDayLabel":"Thu 25 Jun","bgTime":"01:00"},{"g":"A","h":"Czechia","a":"Mexico","etDate":"2026-06-24 21:00","bgISO":"2026-06-25T04:00:00+03:00","bgDateKey":"2026-06-25","bgDayLabel":"Thu 25 Jun","bgTime":"04:00"},{"g":"A","h":"South Africa","a":"South Korea","etDate":"2026-06-24 21:00","bgISO":"2026-06-25T04:00:00+03:00","bgDateKey":"2026-06-25","bgDayLabel":"Thu 25 Jun","bgTime":"04:00"},{"g":"E","h":"Ecuador","a":"Germany","etDate":"2026-06-25 16:00","bgISO":"2026-06-25T23:00:00+03:00","bgDateKey":"2026-06-25","bgDayLabel":"Thu 25 Jun","bgTime":"23:00"},{"g":"E","h":"Curacao","a":"Ivory Coast","etDate":"2026-06-25 16:00","bgISO":"2026-06-25T23:00:00+03:00","bgDateKey":"2026-06-25","bgDayLabel":"Thu 25 Jun","bgTime":"23:00"},{"g":"F","h":"Japan","a":"Sweden","etDate":"2026-06-25 19:00","bgISO":"2026-06-26T02:00:00+03:00","bgDateKey":"2026-06-26","bgDayLabel":"Fri 26 Jun","bgTime":"02:00"},{"g":"F","h":"Tunisia","a":"Netherlands","etDate":"2026-06-25 19:00","bgISO":"2026-06-26T02:00:00+03:00","bgDateKey":"2026-06-26","bgDayLabel":"Fri 26 Jun","bgTime":"02:00"},{"g":"D","h":"Turkiye","a":"USA","etDate":"2026-06-25 22:00","bgISO":"2026-06-26T05:00:00+03:00","bgDateKey":"2026-06-26","bgDayLabel":"Fri 26 Jun","bgTime":"05:00"},{"g":"D","h":"Paraguay","a":"Australia","etDate":"2026-06-25 22:00","bgISO":"2026-06-26T05:00:00+03:00","bgDateKey":"2026-06-26","bgDayLabel":"Fri 26 Jun","bgTime":"05:00"},{"g":"I","h":"Norway","a":"France","etDate":"2026-06-26 15:00","bgISO":"2026-06-26T22:00:00+03:00","bgDateKey":"2026-06-26","bgDayLabel":"Fri 26 Jun","bgTime":"22:00"},{"g":"I","h":"Senegal","a":"Iraq","etDate":"2026-06-26 15:00","bgISO":"2026-06-26T22:00:00+03:00","bgDateKey":"2026-06-26","bgDayLabel":"Fri 26 Jun","bgTime":"22:00"},{"g":"H","h":"Cape Verde","a":"Saudi Arabia","etDate":"2026-06-26 20:00","bgISO":"2026-06-27T03:00:00+03:00","bgDateKey":"2026-06-27","bgDayLabel":"Sat 27 Jun","bgTime":"03:00"},{"g":"H","h":"Uruguay","a":"Spain","etDate":"2026-06-26 20:00","bgISO":"2026-06-27T03:00:00+03:00","bgDateKey":"2026-06-27","bgDayLabel":"Sat 27 Jun","bgTime":"03:00"},{"g":"G","h":"Egypt","a":"Iran","etDate":"2026-06-26 23:00","bgISO":"2026-06-27T06:00:00+03:00","bgDateKey":"2026-06-27","bgDayLabel":"Sat 27 Jun","bgTime":"06:00"},{"g":"G","h":"New Zealand","a":"Belgium","etDate":"2026-06-26 23:00","bgISO":"2026-06-27T06:00:00+03:00","bgDateKey":"2026-06-27","bgDayLabel":"Sat 27 Jun","bgTime":"06:00"},{"g":"L","h":"Panama","a":"England","etDate":"2026-06-27 17:00","bgISO":"2026-06-28T00:00:00+03:00","bgDateKey":"2026-06-28","bgDayLabel":"Sun 28 Jun","bgTime":"00:00"},{"g":"L","h":"Croatia","a":"Ghana","etDate":"2026-06-27 17:00","bgISO":"2026-06-28T00:00:00+03:00","bgDateKey":"2026-06-28","bgDayLabel":"Sun 28 Jun","bgTime":"00:00"},{"g":"K","h":"Colombia","a":"Portugal","etDate":"2026-06-27 19:30","bgISO":"2026-06-28T02:30:00+03:00","bgDateKey":"2026-06-28","bgDayLabel":"Sun 28 Jun","bgTime":"02:30"},{"g":"K","h":"DR Congo","a":"Uzbekistan","etDate":"2026-06-27 19:30","bgISO":"2026-06-28T02:30:00+03:00","bgDateKey":"2026-06-28","bgDayLabel":"Sun 28 Jun","bgTime":"02:30"},{"g":"J","h":"Algeria","a":"Austria","etDate":"2026-06-27 22:00","bgISO":"2026-06-28T05:00:00+03:00","bgDateKey":"2026-06-28","bgDayLabel":"Sun 28 Jun","bgTime":"05:00"},{"g":"J","h":"Jordan","a":"Argentina","etDate":"2026-06-27 22:00","bgISO":"2026-06-28T05:00:00+03:00","bgDateKey":"2026-06-28","bgDayLabel":"Sun 28 Jun","bgTime":"05:00"},{"g":"R32","h":"Runners-up A","a":"Runners-up B","etDate":"2026-06-28 15:00","bgISO":"2026-06-28T22:00:00+03:00","bgDateKey":"2026-06-28","bgDayLabel":"Sun 28 Jun","bgTime":"22:00"},{"g":"R32","h":"Winners C","a":"Runners-up F","etDate":"2026-06-29 13:00","bgISO":"2026-06-29T20:00:00+03:00","bgDateKey":"2026-06-29","bgDayLabel":"Mon 29 Jun","bgTime":"20:00"},{"g":"R32","h":"Winners E","a":"Best 3rd A/B/C/D/F","etDate":"2026-06-29 16:30","bgISO":"2026-06-29T23:30:00+03:00","bgDateKey":"2026-06-29","bgDayLabel":"Mon 29 Jun","bgTime":"23:30"},{"g":"R32","h":"Winners F","a":"Runners-up C","etDate":"2026-06-29 21:00","bgISO":"2026-06-30T04:00:00+03:00","bgDateKey":"2026-06-30","bgDayLabel":"Tue 30 Jun","bgTime":"04:00"},{"g":"R32","h":"Runners-up E","a":"Runners-up I","etDate":"2026-06-30 13:00","bgISO":"2026-06-30T20:00:00+03:00","bgDateKey":"2026-06-30","bgDayLabel":"Tue 30 Jun","bgTime":"20:00"},{"g":"R32","h":"Winners I","a":"Best 3rd C/D/F/G/H","etDate":"2026-06-30 17:00","bgISO":"2026-07-01T00:00:00+03:00","bgDateKey":"2026-07-01","bgDayLabel":"Wed 1 Jul","bgTime":"00:00"},{"g":"R32","h":"Winners A","a":"Best 3rd C/E/F/H/I","etDate":"2026-06-30 21:00","bgISO":"2026-07-01T04:00:00+03:00","bgDateKey":"2026-07-01","bgDayLabel":"Wed 1 Jul","bgTime":"04:00"},{"g":"R32","h":"Winners L","a":"Best 3rd E/H/I/J/K","etDate":"2026-07-01 12:00","bgISO":"2026-07-01T19:00:00+03:00","bgDateKey":"2026-07-01","bgDayLabel":"Wed 1 Jul","bgTime":"19:00"},{"g":"R32","h":"Winners G","a":"Best 3rd A/E/H/I/J","etDate":"2026-07-01 16:00","bgISO":"2026-07-01T23:00:00+03:00","bgDateKey":"2026-07-01","bgDayLabel":"Wed 1 Jul","bgTime":"23:00"},{"g":"R32","h":"Winners D","a":"Best 3rd B/E/F/I/J","etDate":"2026-07-01 20:00","bgISO":"2026-07-02T03:00:00+03:00","bgDateKey":"2026-07-02","bgDayLabel":"Thu 2 Jul","bgTime":"03:00"},{"g":"R32","h":"Winners H","a":"Runners-up J","etDate":"2026-07-02 15:00","bgISO":"2026-07-02T22:00:00+03:00","bgDateKey":"2026-07-02","bgDayLabel":"Thu 2 Jul","bgTime":"22:00"},{"g":"R32","h":"Runners-up K","a":"Runners-up L","etDate":"2026-07-02 19:00","bgISO":"2026-07-03T02:00:00+03:00","bgDateKey":"2026-07-03","bgDayLabel":"Fri 3 Jul","bgTime":"02:00"},{"g":"R32","h":"Winners B","a":"Best 3rd E/F/G/I/J","etDate":"2026-07-02 23:00","bgISO":"2026-07-03T06:00:00+03:00","bgDateKey":"2026-07-03","bgDayLabel":"Fri 3 Jul","bgTime":"06:00"},{"g":"R32","h":"Runners-up D","a":"Runners-up G","etDate":"2026-07-03 14:00","bgISO":"2026-07-03T21:00:00+03:00","bgDateKey":"2026-07-03","bgDayLabel":"Fri 3 Jul","bgTime":"21:00"},{"g":"R32","h":"Winners J","a":"Runners-up H","etDate":"2026-07-03 18:00","bgISO":"2026-07-04T01:00:00+03:00","bgDateKey":"2026-07-04","bgDayLabel":"Sat 4 Jul","bgTime":"01:00"},{"g":"R32","h":"Winners K","a":"Best 3rd D/E/I/J/L","etDate":"2026-07-03 21:30","bgISO":"2026-07-04T04:30:00+03:00","bgDateKey":"2026-07-04","bgDayLabel":"Sat 4 Jul","bgTime":"04:30"},{"g":"R16","h":"Round of 16 — Match 1","a":"TBD","etDate":"2026-07-04 13:00","bgISO":"2026-07-04T20:00:00+03:00","bgDateKey":"2026-07-04","bgDayLabel":"Sat 4 Jul","bgTime":"20:00"},{"g":"R16","h":"Round of 16 — Match 2","a":"TBD","etDate":"2026-07-04 17:00","bgISO":"2026-07-05T00:00:00+03:00","bgDateKey":"2026-07-05","bgDayLabel":"Sun 5 Jul","bgTime":"00:00"},{"g":"R16","h":"Round of 16 — Match 3","a":"TBD","etDate":"2026-07-05 16:00","bgISO":"2026-07-05T23:00:00+03:00","bgDateKey":"2026-07-05","bgDayLabel":"Sun 5 Jul","bgTime":"23:00"},{"g":"R16","h":"Round of 16 — Match 4","a":"TBD","etDate":"2026-07-05 20:00","bgISO":"2026-07-06T03:00:00+03:00","bgDateKey":"2026-07-06","bgDayLabel":"Mon 6 Jul","bgTime":"03:00"},{"g":"R16","h":"Round of 16 — Match 5","a":"TBD","etDate":"2026-07-06 15:00","bgISO":"2026-07-06T22:00:00+03:00","bgDateKey":"2026-07-06","bgDayLabel":"Mon 6 Jul","bgTime":"22:00"},{"g":"R16","h":"Round of 16 — Match 6","a":"TBD","etDate":"2026-07-06 20:00","bgISO":"2026-07-07T03:00:00+03:00","bgDateKey":"2026-07-07","bgDayLabel":"Tue 7 Jul","bgTime":"03:00"},{"g":"R16","h":"Round of 16 — Match 7","a":"TBD","etDate":"2026-07-07 12:00","bgISO":"2026-07-07T19:00:00+03:00","bgDateKey":"2026-07-07","bgDayLabel":"Tue 7 Jul","bgTime":"19:00"},{"g":"R16","h":"Round of 16 — Match 8","a":"TBD","etDate":"2026-07-07 16:00","bgISO":"2026-07-07T23:00:00+03:00","bgDateKey":"2026-07-07","bgDayLabel":"Tue 7 Jul","bgTime":"23:00"},{"g":"QF","h":"Quarterfinal 1","a":"TBD","etDate":"2026-07-09 16:00","bgISO":"2026-07-09T23:00:00+03:00","bgDateKey":"2026-07-09","bgDayLabel":"Thu 9 Jul","bgTime":"23:00"},{"g":"QF","h":"Quarterfinal 2","a":"TBD","etDate":"2026-07-10 15:00","bgISO":"2026-07-10T22:00:00+03:00","bgDateKey":"2026-07-10","bgDayLabel":"Fri 10 Jul","bgTime":"22:00"},{"g":"QF","h":"Quarterfinal 3","a":"TBD","etDate":"2026-07-11 17:00","bgISO":"2026-07-12T00:00:00+03:00","bgDateKey":"2026-07-12","bgDayLabel":"Sun 12 Jul","bgTime":"00:00"},{"g":"QF","h":"Quarterfinal 4","a":"TBD","etDate":"2026-07-11 21:00","bgISO":"2026-07-12T04:00:00+03:00","bgDateKey":"2026-07-12","bgDayLabel":"Sun 12 Jul","bgTime":"04:00"},{"g":"SF","h":"Semifinal 1","a":"TBD","etDate":"2026-07-14 15:00","bgISO":"2026-07-14T22:00:00+03:00","bgDateKey":"2026-07-14","bgDayLabel":"Tue 14 Jul","bgTime":"22:00"},{"g":"SF","h":"Semifinal 2","a":"TBD","etDate":"2026-07-15 15:00","bgISO":"2026-07-15T22:00:00+03:00","bgDateKey":"2026-07-15","bgDayLabel":"Wed 15 Jul","bgTime":"22:00"},{"g":"3RD","h":"Third-place playoff","a":"TBD","etDate":"2026-07-18 17:00","bgISO":"2026-07-19T00:00:00+03:00","bgDateKey":"2026-07-19","bgDayLabel":"Sun 19 Jul","bgTime":"00:00"},{"g":"FINAL","h":"FINAL","a":"TBD","etDate":"2026-07-19 15:00","bgISO":"2026-07-19T22:00:00+03:00","bgDateKey":"2026-07-19","bgDayLabel":"Sun 19 Jul","bgTime":"22:00"}];
+
+// ---- flag emojis ----
+const FLAG = {
+ "Mexico":"🇲🇽","South Africa":"🇿🇦","South Korea":"🇰🇷","Czechia":"🇨🇿","Canada":"🇨🇦",
+ "Bosnia and Herzegovina":"🇧🇦","USA":"🇺🇸","Paraguay":"🇵🇾","Qatar":"🇶🇦","Switzerland":"🇨🇭",
+ "Brazil":"🇧🇷","Morocco":"🇲🇦","Haiti":"🇭🇹","Scotland":"🏴󠁧󠁢󠁳󠁣󠁴󠁿","Australia":"🇦🇺","Turkiye":"🇹🇷",
+ "Germany":"🇩🇪","Curacao":"🇨🇼","Ivory Coast":"🇨🇮","Ecuador":"🇪🇨","Netherlands":"🇳🇱","Japan":"🇯🇵",
+ "Sweden":"🇸🇪","Tunisia":"🇹🇳","Spain":"🇪🇸","Cape Verde":"🇨🇻","Belgium":"🇧🇪","Egypt":"🇪🇬",
+ "Saudi Arabia":"🇸🇦","Uruguay":"🇺🇾","Iran":"🇮🇷","New Zealand":"🇳🇿","France":"🇫🇷","Senegal":"🇸🇳",
+ "Iraq":"🇮🇶","Norway":"🇳🇴","Argentina":"🇦🇷","Algeria":"🇩🇿","Austria":"🇦🇹","Jordan":"🇯🇴",
+ "Portugal":"🇵🇹","DR Congo":"🇨🇩","England":"🏴󠁧󠁢󠁥󠁮󠁧󠁿","Croatia":"🇭🇷","Ghana":"🇬🇭","Panama":"🇵🇦",
+ "Uzbekistan":"🇺🇿","Colombia":"🇨🇴"
+};
+const STAGE_NAME={R32:"Round of 32",R16:"Round of 16",QF:"Quarterfinal",SF:"Semifinal","3RD":"Third place",FINAL:"Final"};
+const isGroup = g => g.length===1;
+
+// ---- state ----
+const st = {q:"", stage:"all", grp:null, iraq:false, up:false};
+
+// ---- clock ----
+function tick(){
+  const now=new Date();
+  const f=new Intl.DateTimeFormat('en-GB',{timeZone:'Asia/Baghdad',weekday:'short',day:'numeric',
+    month:'short',hour:'2-digit',minute:'2-digit',hour12:false});
+  document.getElementById('clock').textContent=f.format(now).replace(',','');
+}
+tick(); setInterval(tick,30000);
+
+// ---- status vs now ----
+function statusOf(m){
+  const ko=new Date(m.bgISO).getTime(), now=Date.now(), end=ko+115*60000;
+  if(now<ko) return "up";
+  if(now<=end) return "live";
+  return "done";
+}
+
+function teamHTML(name){
+  const fl=FLAG[name]||"";
+  const isPlaceholder = !FLAG[name] && name!=="TBD";
+  const cls = (name==="TBD"||isPlaceholder)?'style="color:var(--mut);font-weight:600"':'';
+  return `<div class="tm" ${cls}><span class="flag">${fl}</span><span>${name}</span></div>`;
+}
+
+function matchHTML(m){
+  const stt=statusOf(m);
+  const late = (()=>{const h=+m.bgTime.slice(0,2); return h>=0&&h<6;})();
+  const iq = m.h==="Iraq"||m.a==="Iraq";
+  const gtag = isGroup(m.g)?("Group "+m.g):(STAGE_NAME[m.g]||m.g);
+  let statusHTML="";
+  if(stt==="live") statusHTML=`<span class="status lv"><span class="dot"></span>Live</span>`;
+  else if(stt==="done") statusHTML=`<span class="status dn">Ended</span>`;
+  else statusHTML=`<span class="status up">Upcoming</span>`;
+  const moon = late?`<div class="mn">🌙 late</div>`:"";
+  return `<div class="m ${iq?'iq':''} ${stt==='live'?'live':''} ${stt==='done'?'done':''}">
+    <div class="time">${m.bgTime}${moon}</div>
+    <div class="teams">
+      ${teamHTML(m.h)}
+      <div class="vs">VS</div>
+      ${teamHTML(m.a)}
+    </div>
+    <div class="meta"><span class="gtag">${gtag}</span>${statusHTML}</div>
+  </div>`;
+}
+
+function passes(m){
+  if(st.stage==="group" && !isGroup(m.g)) return false;
+  if(st.stage!=="all" && st.stage!=="group" && m.g!==st.stage) return false;
+  if(st.grp && m.g!==st.grp) return false;
+  if(st.iraq && !(m.h==="Iraq"||m.a==="Iraq")) return false;
+  if(st.up && statusOf(m)!=="up") return false;
+  if(st.q){
+    const s=st.q.toLowerCase();
+    if(!(m.h.toLowerCase().includes(s)||m.a.toLowerCase().includes(s))) return false;
+  }
+  return true;
+}
+
+function render(){
+  const list=document.getElementById('list');
+  const rows=DATA.filter(passes);
+  document.getElementById('counter').textContent =
+    rows.length+" of "+DATA.length+" matches";
+  if(!rows.length){
+    list.innerHTML=`<div class="empty">No matches fit these filters.<br><b>Tip:</b> clear the search box or tap “All stages”.</div>`;
+    return;
+  }
+  let html="", curDay=null;
+  for(const m of rows){
+    if(m.bgDateKey!==curDay){
+      curDay=m.bgDateKey;
+      const dayRows=rows.filter(x=>x.bgDateKey===curDay).length;
+      html+=`<div class="day"><div class="dayhd"><span class="d">${m.bgDayLabel}</span><span class="bar"></span><span class="n">${dayRows} match${dayRows>1?'es':''}</span></div>`;
+      // close handled implicitly; we wrap each day's matches
+    }
+    html+=matchHTML(m);
+    // peek next: if next has different day, close .day
+  }
+  // simpler: rebuild grouped
+  html="";
+  const byDay={};
+  const order=[];
+  for(const m of rows){ if(!byDay[m.bgDateKey]){byDay[m.bgDateKey]=[];order.push(m.bgDateKey);} byDay[m.bgDateKey].push(m); }
+  for(const k of order){
+    const ms=byDay[k];
+    html+=`<div class="day"><div class="dayhd"><span class="d">${ms[0].bgDayLabel}</span><span class="bar"></span><span class="n">${ms.length} match${ms.length>1?'es':''}</span></div>`;
+    html+=ms.map(matchHTML).join("");
+    html+=`</div>`;
+  }
+  list.innerHTML=html;
+}
+
+// ---- wire controls ----
+document.getElementById('q').addEventListener('input',e=>{st.q=e.target.value.trim();render();});
+
+document.getElementById('stageChips').addEventListener('click',e=>{
+  const b=e.target.closest('[data-stage]'); if(!b)return;
+  st.stage=b.dataset.stage; st.grp=null;
+  [...document.querySelectorAll('#stageChips .chip')].forEach(c=>c.classList.toggle('on',c===b));
+  [...document.querySelectorAll('[data-grp]')].forEach(c=>c.classList.remove('on'));
+  render();
+});
+
+document.getElementById('extraChips').addEventListener('click',e=>{
+  const g=e.target.closest('[data-grp]');
+  const t=e.target.closest('[data-toggle]');
+  if(g){
+    if(st.grp===g.dataset.grp){st.grp=null;g.classList.remove('on');}
+    else{
+      st.grp=g.dataset.grp;
+      [...document.querySelectorAll('[data-grp]')].forEach(c=>c.classList.toggle('on',c===g));
+      // selecting a group implies group stage scope but keep stage=all so it just filters
+      st.stage="all";
+      [...document.querySelectorAll('#stageChips .chip')].forEach(c=>c.classList.toggle('on',c.dataset.stage==="all"));
+    }
+    render();
+  }
+  if(t){
+    if(t.dataset.toggle==="iraq"){st.iraq=!st.iraq;t.classList.toggle('on',st.iraq);}
+    if(t.dataset.toggle==="up"){st.up=!st.up;t.classList.toggle('on',st.up);}
+    render();
+  }
+});
+
+document.getElementById('theme').addEventListener('click',()=>{
+  const r=document.documentElement;
+  r.dataset.theme = r.dataset.theme==='dark'?'light':'dark';
+});
+
+render();
+setInterval(render, 60000); // refresh live/ended status each minute
+</script>
+</body>
+</html>
